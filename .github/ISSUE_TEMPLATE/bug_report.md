@@ -45,7 +45,7 @@ Some text on the line being commented.
 
 ## Relevant settings
 
-<!-- Paste any non-default `markdownReviewNotes.*` settings from your settings.json. -->
+<!-- Paste any non-default `markdownReviewComments.*` settings from your settings.json. -->
 
 ```json
 {

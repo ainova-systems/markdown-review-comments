@@ -4,7 +4,7 @@ Guidance for AI coding agents (and humans) working in this repo.
 
 ## What this is
 
-**Markdown Review Notes** (`markdown-review-notes`) is a VS Code extension that adds
+**Markdown Review Comments** (`markdown-review-comments`) is a VS Code extension that adds
 GitHub-style inline review comments to Markdown files. Local-first and git-native: the
 markdown file is the single source of truth — each note is a `## COMMENT-...` block in a
 `# Unresolved Comments` section, linked to its line by an inline `<!-- review-note: ID -->`
@@ -23,7 +23,7 @@ anchor that moves with the text. No PR, no SaaS, no database, and zero runtime d
 ## Architecture (`src/`)
 
 - `extension.ts` — activation entry point; constructs the services + providers and registers
-  every `markdownReviewNotes.*` command.
+  every `markdownReviewComments.*` command.
 - `providers/`
   - `ReviewCodeActionProvider.ts` — lightbulb / Ctrl+. quick-fixes (add, resolve, go to source).
   - `ReviewCommentController.ts` — the native Comments-API editing surface (gutter `+`, inline

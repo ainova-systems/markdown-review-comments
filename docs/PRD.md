@@ -1,4 +1,4 @@
-# PRD — VSCode Extension: Markdown Inline Review Notes
+# PRD — VSCode Extension: Markdown Review Comments
 
 ## Vision
 
@@ -209,7 +209,7 @@ Actions appear:
 Command name:
 
 ```text
-markdownReviewNotes.addComment
+markdownReviewComments.addComment
 ```
 
 Behavior:
@@ -501,7 +501,7 @@ No proprietary storage.
 
 # Suggested Extension Names
 
-- Markdown Review Notes
+- Markdown Review Comments
 - AI Review Notes
 - Markdown Inline Notes
 - Review Anchors
@@ -514,7 +514,7 @@ No proprietary storage.
 
 # Suggested Startup Prompt
 
-Build a VSCode extension in TypeScript called "Markdown Review Notes".
+Build a VSCode extension in TypeScript called "Markdown Review Comments".
 
 The extension should work only with markdown files.
 

@@ -1,7 +1,7 @@
 # Security Policy
 
 Please report vulnerabilities **privately** via GitHub Security Advisories:
-<https://github.com/ainova-systems/markdown-add-comment/security/advisories>
+<https://github.com/ainova-systems/markdown-review-comments/security/advisories>
 
 If that page does not accept reports, open a regular issue asking for a private
 contact channel — **without any vulnerability details**.

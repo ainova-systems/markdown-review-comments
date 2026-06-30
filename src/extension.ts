@@ -17,7 +17,7 @@ export function activate(context: vscode.ExtensionContext): void {
   const activeMarkdownDocument = (): vscode.TextDocument | undefined => {
     const editor = vscode.window.activeTextEditor;
     if (!editor || editor.document.languageId !== 'markdown') {
-      vscode.window.showWarningMessage('Markdown Review Notes: open a Markdown file first.');
+      vscode.window.showWarningMessage('Markdown Review Comments: open a Markdown file first.');
       return undefined;
     }
     return editor.document;
@@ -25,36 +25,36 @@ export function activate(context: vscode.ExtensionContext): void {
 
   context.subscriptions.push(
     // Opens the native inline input at the selection (lightbulb / Ctrl+Alt+M / palette).
-    vscode.commands.registerCommand('markdownReviewNotes.addComment', () => {
+    vscode.commands.registerCommand('markdownReviewComments.addComment', () => {
       const editor = vscode.window.activeTextEditor;
       if (!editor || editor.document.languageId !== 'markdown') {
-        vscode.window.showWarningMessage('Markdown Review Notes: open a Markdown file first.');
+        vscode.window.showWarningMessage('Markdown Review Comments: open a Markdown file first.');
         return;
       }
       reviewComments.startCommentAtSelection(editor);
     }),
     // Submit button inside an inline input thread.
-    vscode.commands.registerCommand('markdownReviewNotes.createComment', (reply: vscode.CommentReply) =>
+    vscode.commands.registerCommand('markdownReviewComments.createComment', (reply: vscode.CommentReply) =>
       reviewComments.createComment(reply)
     ),
     // Resolve button on a displayed comment thread.
-    vscode.commands.registerCommand('markdownReviewNotes.resolveThread', (thread: vscode.CommentThread) =>
+    vscode.commands.registerCommand('markdownReviewComments.resolveThread', (thread: vscode.CommentThread) =>
       reviewComments.resolveThread(thread)
     ),
     // Resolve via palette / CodeLens / code action (id-based).
-    vscode.commands.registerCommand('markdownReviewNotes.resolveComment', async (id?: string) => {
+    vscode.commands.registerCommand('markdownReviewComments.resolveComment', async (id?: string) => {
       const document = activeMarkdownDocument();
       if (document) {
         await commentService.resolveComment(document, id);
       }
     }),
-    vscode.commands.registerCommand('markdownReviewNotes.navigateToSource', (id: string) =>
+    vscode.commands.registerCommand('markdownReviewComments.navigateToSource', (id: string) =>
       navigationService.navigateToSource(id)
     ),
-    vscode.commands.registerCommand('markdownReviewNotes.navigateToComment', (id: string) =>
+    vscode.commands.registerCommand('markdownReviewComments.navigateToComment', (id: string) =>
       navigationService.navigateToComment(id)
     ),
-    vscode.commands.registerCommand('markdownReviewNotes.exportReviewContext', () =>
+    vscode.commands.registerCommand('markdownReviewComments.exportReviewContext', () =>
       commentService.exportReviewContext()
     ),
 
@@ -84,7 +84,7 @@ export function activate(context: vscode.ExtensionContext): void {
     }),
     vscode.window.onDidChangeVisibleTextEditors(() => reviewComments.scheduleRefresh()),
     vscode.workspace.onDidChangeConfiguration((event) => {
-      if (event.affectsConfiguration('markdownReviewNotes')) {
+      if (event.affectsConfiguration('markdownReviewComments')) {
         reviewComments.scheduleRefresh();
       }
     })

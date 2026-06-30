@@ -23,7 +23,7 @@ export class ReviewCodeActionProvider implements vscode.CodeActionProvider {
     const actions: vscode.CodeAction[] = [];
 
     const add = new vscode.CodeAction('Add Unresolved Comment', vscode.CodeActionKind.QuickFix);
-    add.command = { command: 'markdownReviewNotes.addComment', title: 'Add Unresolved Comment' };
+    add.command = { command: 'markdownReviewComments.addComment', title: 'Add Unresolved Comment' };
     actions.push(add);
 
     const offset = document.offsetAt(range.start);
@@ -35,7 +35,7 @@ export class ReviewCodeActionProvider implements vscode.CodeActionProvider {
       if (comment.status === 'unresolved') {
         const resolve = new vscode.CodeAction('Mark Comment Resolved', vscode.CodeActionKind.QuickFix);
         resolve.command = {
-          command: 'markdownReviewNotes.resolveComment',
+          command: 'markdownReviewComments.resolveComment',
           title: 'Mark Comment Resolved',
           arguments: [comment.id],
         };
@@ -44,7 +44,7 @@ export class ReviewCodeActionProvider implements vscode.CodeActionProvider {
 
       const navigate = new vscode.CodeAction('Go to Source Line', vscode.CodeActionKind.QuickFix);
       navigate.command = {
-        command: 'markdownReviewNotes.navigateToSource',
+        command: 'markdownReviewComments.navigateToSource',
         title: 'Go to Source Line',
         arguments: [comment.id],
       };

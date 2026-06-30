@@ -1,4 +1,4 @@
-# Markdown Review Notes
+# Markdown Review Comments
 
 > GitHub-style inline review comments inside Markdown files — **local-first, git-native, AI-friendly**. No PR, no SaaS backend, no database.
 
@@ -15,8 +15,8 @@ Not yet published to the VS Code Marketplace. Install from a `.vsix`:
 ```sh
 npm install
 npm run compile
-npx @vscode/vsce package   # produces markdown-review-notes-<version>.vsix
-code --install-extension markdown-review-notes-<version>.vsix
+npx @vscode/vsce package   # produces markdown-review-comments-<version>.vsix
+code --install-extension markdown-review-comments-<version>.vsix
 ```
 
 Or run it from source: open this folder in VS Code and press **F5** (Extension Development Host — it opens the bundled `examples/` folder).
@@ -87,7 +87,7 @@ Need to validate whether ownership belongs to sync.sh or target adapters.
 
 ### Resolve a comment
 
-Click **Resolve** on the inline comment thread, or put the cursor inside a comment block and pick **Mark Comment Resolved** from the lightbulb / CodeLens, or run **Markdown Review Notes: Mark Comment Resolved** from the palette. The comment block and its inline anchor are removed.
+Click **Resolve** on the inline comment thread, or put the cursor inside a comment block and pick **Mark Comment Resolved** from the lightbulb / CodeLens, or run **Markdown Review Comments: Mark Comment Resolved** from the palette. The comment block and its inline anchor are removed.
 
 ### Navigate
 
@@ -95,7 +95,7 @@ Saved comments appear as inline threads beneath their source line. A **Go to sou
 
 ### Export review context
 
-Run **Markdown Review Notes: Export Review Context** to open a new document containing every unresolved comment, formatted for pasting into an LLM prompt.
+Run **Markdown Review Comments: Export Review Context** to open a new document containing every unresolved comment, formatted for pasting into an LLM prompt.
 
 ---
 
@@ -103,22 +103,22 @@ Run **Markdown Review Notes: Export Review Context** to open a new document cont
 
 | Command | Title |
 | --- | --- |
-| `markdownReviewNotes.addComment` | Add Unresolved Comment |
-| `markdownReviewNotes.resolveComment` | Mark Comment Resolved |
-| `markdownReviewNotes.navigateToSource` | Go to Source Line |
-| `markdownReviewNotes.navigateToComment` | Go to Comment |
-| `markdownReviewNotes.exportReviewContext` | Export Review Context |
+| `markdownReviewComments.addComment` | Add Unresolved Comment |
+| `markdownReviewComments.resolveComment` | Mark Comment Resolved |
+| `markdownReviewComments.navigateToSource` | Go to Source Line |
+| `markdownReviewComments.navigateToComment` | Go to Comment |
+| `markdownReviewComments.exportReviewContext` | Export Review Context |
 
 ## Settings
 
 | Setting | Default | Description |
 | --- | --- | --- |
-| `markdownReviewNotes.insertSourceMarker` | `true` | Insert the inline `<!-- review-note: ID -->` anchor above the commented line (the durable source link). |
-| `markdownReviewNotes.removeMarkerOnResolve` | `true` | Also remove the inline anchor when resolving a comment. |
-| `markdownReviewNotes.unresolvedSectionTitle` | `Unresolved Comments` | Title of the level-1 section that groups unresolved comments. |
-| `markdownReviewNotes.removeEmptySection` | `true` | Remove the empty section (and a preceding `---`) when the last comment is resolved. |
-| `markdownReviewNotes.showInlineComments` | `true` | Render saved comments as native inline threads beneath the commented line. |
-| `markdownReviewNotes.enableCodeLens` | `true` | Show the `Go to source` / `Resolve` CodeLens above comment blocks. |
+| `markdownReviewComments.insertSourceMarker` | `true` | Insert the inline `<!-- review-note: ID -->` anchor above the commented line (the durable source link). |
+| `markdownReviewComments.removeMarkerOnResolve` | `true` | Also remove the inline anchor when resolving a comment. |
+| `markdownReviewComments.unresolvedSectionTitle` | `Unresolved Comments` | Title of the level-1 section that groups unresolved comments. |
+| `markdownReviewComments.removeEmptySection` | `true` | Remove the empty section (and a preceding `---`) when the last comment is resolved. |
+| `markdownReviewComments.showInlineComments` | `true` | Render saved comments as native inline threads beneath the commented line. |
+| `markdownReviewComments.enableCodeLens` | `true` | Show the `Go to source` / `Resolve` CodeLens above comment blocks. |
 
 ---
 
@@ -203,7 +203,7 @@ MIT — see the `LICENSE` file.
 
 ## Built AI-first
 
-Markdown Review Notes was designed and implemented by AI coding agents, end to end — a working proof of [AI-First engineering](https://www.ainovasystems.com), not a claim about it.
+Markdown Review Comments was designed and implemented by AI coding agents, end to end — a working proof of [AI-First engineering](https://www.ainovasystems.com), not a claim about it.
 
 ---
 

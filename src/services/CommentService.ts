@@ -12,7 +12,7 @@ import * as md from './MarkdownService';
  */
 export class CommentService {
   private config(): vscode.WorkspaceConfiguration {
-    return vscode.workspace.getConfiguration('markdownReviewNotes');
+    return vscode.workspace.getConfiguration('markdownReviewComments');
   }
 
   private eol(document: vscode.TextDocument): string {

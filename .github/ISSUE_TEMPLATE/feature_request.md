@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest a new capability or improvement for Markdown Review Notes
+about: Suggest a new capability or improvement for Markdown Review Comments
 title: "[feature] "
 labels: enhancement
 ---
@@ -12,7 +12,7 @@ labels: enhancement
 
 ## Proposed solution
 
-<!-- What should Markdown Review Notes do? A new command, configuration option,
+<!-- What should Markdown Review Comments do? A new command, configuration option,
      export format, inline-thread behavior, or change to how the
      `<!-- review-note: ID -->` anchors and `# Unresolved Comments` section work? -->
 

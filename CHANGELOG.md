@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to **Markdown Review Notes** are documented here.
+All notable changes to **Markdown Review Comments** are documented here.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
@@ -20,7 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
-- `markdownReviewNotes.showInlineComments` setting to toggle inline threads.
+- `markdownReviewComments.showInlineComments` setting to toggle inline threads.
 - Navigation fallback by selected text when an anchor is absent.
 
 ## [0.1.0] - 2026-05-24

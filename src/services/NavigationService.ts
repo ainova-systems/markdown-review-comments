@@ -27,7 +27,7 @@ export class NavigationService implements vscode.CodeLensProvider {
     if (document.languageId !== 'markdown') {
       return [];
     }
-    if (!vscode.workspace.getConfiguration('markdownReviewNotes').get<boolean>('enableCodeLens', true)) {
+    if (!vscode.workspace.getConfiguration('markdownReviewComments').get<boolean>('enableCodeLens', true)) {
       return [];
     }
 
@@ -39,7 +39,7 @@ export class NavigationService implements vscode.CodeLensProvider {
       lenses.push(
         new vscode.CodeLens(range, {
           title: '$(arrow-right) Go to source',
-          command: 'markdownReviewNotes.navigateToSource',
+          command: 'markdownReviewComments.navigateToSource',
           arguments: [comment.id],
         })
       );
@@ -47,7 +47,7 @@ export class NavigationService implements vscode.CodeLensProvider {
         lenses.push(
           new vscode.CodeLens(range, {
             title: '$(check) Resolve',
-            command: 'markdownReviewNotes.resolveComment',
+            command: 'markdownReviewComments.resolveComment',
             arguments: [comment.id],
           })
         );

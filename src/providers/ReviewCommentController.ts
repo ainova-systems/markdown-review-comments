@@ -3,7 +3,7 @@ import { ReviewComment } from '../models/ReviewComment';
 import { CommentService } from '../services/CommentService';
 import * as md from '../services/MarkdownService';
 
-const CONTROLLER_ID = 'markdownReviewNotes';
+const CONTROLLER_ID = 'markdownReviewComments';
 const REFRESH_DEBOUNCE_MS = 350;
 
 interface TrackedThread {
@@ -33,7 +33,7 @@ export class ReviewCommentController {
   private refreshTimer: ReturnType<typeof setTimeout> | undefined;
 
   constructor(private readonly commentService: CommentService) {
-    this.controller = vscode.comments.createCommentController(CONTROLLER_ID, 'Markdown Review Notes');
+    this.controller = vscode.comments.createCommentController(CONTROLLER_ID, 'Markdown Review Comments');
     this.controller.options = {
       prompt: 'Add a review note…',
       placeHolder: 'Leave a review note',
@@ -56,7 +56,7 @@ export class ReviewCommentController {
   /** Open an inline input thread at the editor's current selection. */
   startCommentAtSelection(editor: vscode.TextEditor): void {
     if (editor.document.languageId !== 'markdown') {
-      vscode.window.showWarningMessage('Markdown Review Notes works only in Markdown files.');
+      vscode.window.showWarningMessage('Markdown Review Comments works only in Markdown files.');
       return;
     }
     const selection = editor.selection;
@@ -149,7 +149,7 @@ export class ReviewCommentController {
   private renderDocument(document: vscode.TextDocument): void {
     const uriKey = document.uri.toString();
 
-    if (!vscode.workspace.getConfiguration('markdownReviewNotes').get<boolean>('showInlineComments', true)) {
+    if (!vscode.workspace.getConfiguration('markdownReviewComments').get<boolean>('showInlineComments', true)) {
       this.disposeForUri(document.uri);
       return;
     }

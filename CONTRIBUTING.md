@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for helping improve Markdown Review Notes. The codebase is small (~1,400 LOC
+Thanks for helping improve Markdown Review Comments. The codebase is small (~1,400 LOC
 of TypeScript, zero runtime dependencies) and the workflow is simple — please read
 this before opening a PR.
 
