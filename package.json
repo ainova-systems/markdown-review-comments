@@ -1,0 +1,191 @@
+{
+  "name": "markdown-review-notes",
+  "displayName": "Markdown Review Notes",
+  "description": "GitHub-style inline review comments inside Markdown files. Local-first, git-native, AI-friendly — no PR, no SaaS, no database.",
+  "version": "0.2.0",
+  "publisher": "ainova-systems",
+  "license": "MIT",
+  "author": {
+    "name": "Dmitrij Zykovic",
+    "url": "https://www.ainovasystems.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ainova-systems/markdown-add-comment.git"
+  },
+  "homepage": "https://github.com/ainova-systems/markdown-add-comment#readme",
+  "bugs": {
+    "url": "https://github.com/ainova-systems/markdown-add-comment/issues"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "AI",
+    "Other"
+  ],
+  "keywords": [
+    "markdown",
+    "review",
+    "comments",
+    "notes",
+    "ai",
+    "spec",
+    "adr",
+    "architecture"
+  ],
+  "icon": "images/icon.png",
+  "activationEvents": [
+    "onLanguage:markdown"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "markdownReviewNotes.addComment",
+        "title": "Add Unresolved Comment",
+        "category": "Markdown Review Notes"
+      },
+      {
+        "command": "markdownReviewNotes.createComment",
+        "title": "Add review note",
+        "category": "Markdown Review Notes"
+      },
+      {
+        "command": "markdownReviewNotes.resolveThread",
+        "title": "Resolve",
+        "category": "Markdown Review Notes"
+      },
+      {
+        "command": "markdownReviewNotes.resolveComment",
+        "title": "Mark Comment Resolved",
+        "category": "Markdown Review Notes"
+      },
+      {
+        "command": "markdownReviewNotes.navigateToSource",
+        "title": "Go to Source Line",
+        "category": "Markdown Review Notes"
+      },
+      {
+        "command": "markdownReviewNotes.navigateToComment",
+        "title": "Go to Comment",
+        "category": "Markdown Review Notes"
+      },
+      {
+        "command": "markdownReviewNotes.exportReviewContext",
+        "title": "Export Review Context",
+        "category": "Markdown Review Notes"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "markdownReviewNotes.addComment",
+          "when": "editorLangId == markdown"
+        },
+        {
+          "command": "markdownReviewNotes.resolveComment",
+          "when": "editorLangId == markdown"
+        },
+        {
+          "command": "markdownReviewNotes.exportReviewContext",
+          "when": "editorLangId == markdown"
+        },
+        {
+          "command": "markdownReviewNotes.createComment",
+          "when": "false"
+        },
+        {
+          "command": "markdownReviewNotes.resolveThread",
+          "when": "false"
+        },
+        {
+          "command": "markdownReviewNotes.navigateToSource",
+          "when": "false"
+        },
+        {
+          "command": "markdownReviewNotes.navigateToComment",
+          "when": "false"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "markdownReviewNotes.addComment",
+          "when": "editorLangId == markdown",
+          "group": "1_modification@10"
+        }
+      ],
+      "comments/commentThread/context": [
+        {
+          "command": "markdownReviewNotes.createComment",
+          "group": "inline",
+          "when": "commentController == markdownReviewNotes && commentThreadIsEmpty"
+        }
+      ],
+      "comments/commentThread/title": [
+        {
+          "command": "markdownReviewNotes.resolveThread",
+          "group": "inline",
+          "when": "commentController == markdownReviewNotes && !commentThreadIsEmpty"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "markdownReviewNotes.addComment",
+        "key": "ctrl+alt+m",
+        "mac": "cmd+alt+m",
+        "when": "editorTextFocus && editorLangId == markdown"
+      }
+    ],
+    "configuration": {
+      "title": "Markdown Review Notes",
+      "properties": {
+        "markdownReviewNotes.insertSourceMarker": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Insert an inline `<!-- review-note: ID -->` anchor above the commented line. The anchor is the durable, git-visible link between a comment and its source — it moves with the text, so it never goes stale. Inline comment threads and navigation rely on it."
+        },
+        "markdownReviewNotes.removeMarkerOnResolve": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "When resolving a comment, also remove its inline `<!-- review-note: ID -->` anchor from the source."
+        },
+        "markdownReviewNotes.unresolvedSectionTitle": {
+          "type": "string",
+          "default": "Unresolved Comments",
+          "markdownDescription": "Title of the level-1 heading that groups unresolved comments at the bottom of the file."
+        },
+        "markdownReviewNotes.removeEmptySection": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "When the last comment is resolved, remove the now-empty `# Unresolved Comments` section (and a preceding `---` separator)."
+        },
+        "markdownReviewNotes.showInlineComments": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Render saved comments as native inline comment threads anchored below the commented line."
+        },
+        "markdownReviewNotes.enableCodeLens": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Show a `Go to source` / `Resolve` CodeLens above each comment block in the `# Unresolved Comments` section."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile",
+    "test": "node --test \"./out/test/**/*.test.js\"",
+    "package": "npx --yes @vscode/vsce package",
+    "install-extension": "npx --yes @vscode/vsce package -o markdown-review-notes.vsix && code --install-extension markdown-review-notes.vsix --force"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "~1.85.0",
+    "typescript": "^5.4.0"
+  }
+}
