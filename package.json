@@ -218,9 +218,9 @@
     "install-extension": "vsce package -o markdown-review-comments.vsix && code --install-extension markdown-review-comments.vsix --force"
   },
   "devDependencies": {
-    "@types/node": "^20.11.0",
-    "@types/vscode": "~1.85.0",
+    "@types/node": "^26.4.0",
+    "@types/vscode": "~1.134.0",
     "@vscode/vsce": "^3.9.2",
-    "typescript": "^5.4.0"
+    "typescript": "^7.0.2"
   }
 }
