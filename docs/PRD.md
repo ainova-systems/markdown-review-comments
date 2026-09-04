@@ -1,558 +1,159 @@
-# PRD — VSCode Extension: Markdown Review Comments
+# Product spec — Markdown Review Comments
 
-## Vision
+The behaviour contract for the extension. Source files cite the `FR-N` ids below, so keep
+them stable: renumbering breaks the traceability, and changing what one of them means is a
+change to the shipped format.
 
-Build a lightweight VSCode extension that allows users to create GitHub-style inline review comments inside Markdown files without requiring GitHub PRs, GitLens, or external systems.
+This document describes what the extension **does**, not what it was once planned to do.
+When behaviour and this file disagree, one of them is a bug — say which in the PR.
 
-The extension should feel native to VSCode:
-- user selects a line or text range
-- triggers quick action (lightbulb / Ctrl+.)
-- enters a comment
-- comment is automatically appended to an `Unresolved Comments` section at the bottom of the markdown file
-- original line reference is preserved
-- comments are AI-readable and git-friendly
+## Problem
 
-The extension is designed for:
-- AI-first repositories
-- architectural review workflows
-- spec-driven development
-- async design reviews
-- local-first knowledge capture
-- Cursor / Claude Code / Codex workflows
+Reviewing a Markdown document — an ADR, a spec, an agent instruction file — has no good home
+in an editor. A pull request is too heavy and too late for a document still being drafted.
+Sidecar review files are invisible in `git diff` and go stale when the text moves. Preview
+based tools review a rendering rather than the file, and keep the notes in their own storage.
 
-Core philosophy:
-- markdown-native
-- git-native
-- no database
-- no SaaS backend
-- no PR dependency
-- minimal UI
-- AI-friendly format
-- lightweight and fast
+Meanwhile the document is increasingly read by an AI agent, which sees the raw file and
+nothing else.
 
----
+## Solution
 
-# Product Goals
+Notes live in the Markdown file itself:
 
-## Primary Goal
+- an appendix section, `# Unresolved Comments`, holds the notes as ordinary Markdown blocks;
+- an HTML-comment anchor, `<!-- review-note: ID -->`, sits above the reviewed line and ties
+  the two together;
+- resolving a note deletes both, leaving a clean document.
 
-Allow developers to attach structured review notes to markdown content using a GitHub-review-like UX directly inside VSCode.
+The file renders normally in any Markdown viewer, the review shows up in `git diff`, and any
+reader — human or agent — can follow it with no tooling at all.
 
-## Secondary Goals
+## Users
 
-- Make comments readable by AI agents
-- Preserve review context in repository history
-- Keep notes local and portable
-- Avoid heavy Git tooling
-- Enable unresolved/resolved workflows
-- Support long-term architectural documentation review
+Senior engineers, architects and technical writers working in Markdown-heavy repositories:
+specs, ADRs, architecture docs, agent instruction files. Typically in VS Code or Cursor,
+often alongside Claude Code, Copilot or Codex.
 
----
+## Principles
 
-# Non Goals
+1. Markdown is the source of truth.
+2. Git is the persistence layer — no database, no sync, no account.
+3. AI readability beats machine optimisation.
+4. Low friction beats feature richness.
+5. No proprietary storage, no network.
 
-Not trying to build:
-- full GitHub review system
-- collaborative SaaS
-- live multi-user comments
-- issue tracker
-- markdown CMS
-- rich threaded discussions
-- WYSIWYG editor
-- inline rendered overlays synced across files
+## Functional requirements
 
----
+### FR-1 — Markdown only
 
-# Primary User
+The extension activates on `onLanguage:markdown` and acts only on documents whose
+`languageId` is `markdown`, under the `file` and `untitled` schemes. Commands invoked
+elsewhere warn and do nothing.
 
-Senior engineers, architects, AI-first developers, and technical writers working heavily in:
-- Markdown
-- specs
-- ADRs
-- architecture docs
-- AI instruction files
-- repository documentation
+### FR-2 — Code action integration
 
-Typical environments:
-- Cursor
-- VSCode
-- Claude Code workflows
-- spec-driven repositories
+A `CodeActionProvider` offers the review actions through the lightbulb, `Ctrl+.`, the editor
+context menu and the Command Palette. The add action is also bound to `Ctrl+Alt+M`
+(`Cmd+Alt+M` on macOS).
 
----
+### FR-3 — Add a comment
 
-# User Stories
+`markdownReviewComments.addComment` opens the native inline input at the selection. On
+submit, the extension captures the selected text (or the whole line when the selection is
+empty), generates an id, writes the anchor and appends the comment block. An empty body is
+not persisted.
 
-## Story 1
+### FR-4 — Section management
 
-As a developer,
-I want to select a markdown line,
-and quickly add a review comment using a lightbulb action,
-so that I can leave architectural or implementation notes.
+The `# Unresolved Comments` section is created on first use — preceded by a `---` separator
+— and reused afterwards. Its title is configurable
+(`markdownReviewComments.unresolvedSectionTitle`). When the last comment is resolved the
+empty section, and the separator before it, are removed
+(`markdownReviewComments.removeEmptySection`).
 
-## Story 2
+### FR-5 — Comment ids
 
-As an AI-first engineer,
-I want comments stored directly inside markdown,
-so that AI agents can read them as context.
+`COMMENT-YYYY-MM-DD-NNN`, where the date is UTC and `NNN` is a per-day sequence starting at
+`001`, derived by scanning the ids already present in the document. Ids are therefore
+deterministic, human-readable, and stable under concurrent edits to unrelated files.
 
-## Story 3
+### FR-6 — Comment schema
 
-As a reviewer,
-I want unresolved comments grouped at the bottom of the file,
-so that review discussions remain centralized and clean.
-
-## Story 4
-
-As a repository maintainer,
-I want comments preserved in Git,
-so that review history survives branches and AI refactors.
-
----
-
-# UX Requirements
-
-## Main Interaction
-
-### Flow
-
-1. User selects line or text range
-2. User presses:
-   - lightbulb action
-   - OR Ctrl+.
-   - OR command palette
-3. User chooses:
-
-```text
-Add Unresolved Comment
-```
-
-4. Input box appears
-5. User enters comment
-6. Extension appends comment to bottom section
-7. Original selection gets reference marker
-
----
-
-# Example UX
-
-## Source Section
+Each block records the id, the creation timestamp, the status, the reviewed text and the
+body:
 
 ```md
-## Option B
+## COMMENT-2026-09-04-001
 
-Decouple the Agent Skills directory entirely from adapters.
-```
-
-## After Comment Added
-
-```md
-## Option B
-
-<!-- review-note: 2026-05-24-001 -->
-Decouple the Agent Skills directory entirely from adapters.
-```
-
-Bottom section:
-
-```md
----
-
-# Unresolved Comments
-
-## COMMENT-2026-05-24-001
-
-Line: 12
+Created: 2026-09-04T14:32:11Z
+Status: unresolved
 
 Selected Text:
 > Decouple the Agent Skills directory entirely from adapters.
 
 Comment:
-Need to validate whether ownership belongs to sync.sh or target adapters.
-
-Status: unresolved
+Who owns the sync here — sync.sh, or the target adapters?
 ```
 
----
+**No line number is stored.** A `Line: N` field is wrong as soon as anything is inserted
+above it, including a second comment higher in the same file. The anchor is the link
+instead, because it moves with the content it marks. Blocks written by version 0.1 that
+still carry a `Line:` field are parsed without complaint; nothing writes one.
 
-# Functional Requirements
+### FR-7 — AI-friendly output
 
-## FR-1 — Markdown Only
+The stored form is plain Markdown: no JSON, no encoding, no metadata that must be read with
+a tool. An agent handed the file sees the review as part of the document.
 
-Extension initially supports only:
+`Export Review Context` additionally renders all unresolved notes of the current file into a
+new document shaped for an LLM prompt — each note with its anchor, reviewed text and body,
+plus the instruction to fix the source and delete the block.
 
-```text
-*.md
-```
+### FR-8 — Resolve
 
-No other languages in MVP.
+Resolving removes the comment block and, by default
+(`markdownReviewComments.removeMarkerOnResolve`), its anchor. There is no resolved-comment
+archive: the record of the exchange is the git history. Resolve is reachable from the inline
+thread, the CodeLens, the lightbulb and the Command Palette; without an explicit id it acts
+on the block under the cursor, else it offers a picker.
 
----
+### FR-9 — Navigation
 
-## FR-2 — Code Action Integration
+A `CodeLensProvider` puts **Go to source** and **Resolve** above each comment block, and
+**Go to comment** on each anchored line
+(`markdownReviewComments.enableCodeLens`). Navigation resolves the anchor first and falls
+back to searching for the recorded selected text when no anchor is present.
 
-Extension must integrate with:
+### FR-10 — Inline threads
 
-```ts
-CodeActionProvider
-```
+Saved comments render as native Comments-API threads anchored below their source line
+(`markdownReviewComments.showInlineComments`), refreshed — debounced — as the document
+changes.
 
-Actions appear:
-- via lightbulb
-- via Ctrl+.
-- via command palette
+## Non-functional requirements
 
----
+- **No dependencies, no network.** The VSIX ships only this project's compiled output.
+- **Trust-agnostic.** Supported in untrusted workspaces and on virtual file systems, because
+  the extension only reads and writes text documents.
+- **Fast.** Activation is lazy (first Markdown document). No AST parse, no background
+  indexing, no workspace scan; edits are regex-and-slice operations on the open document.
+- **Line-ending preserving.** A CRLF document stays CRLF.
 
-## FR-3 — Add Comment Command
+## Non-goals
 
-Command name:
+Not a GitHub review replacement, a collaborative SaaS, a live multi-user tool, an issue
+tracker, a Markdown CMS, or a WYSIWYG editor. No threading, no avatars, no syncing, no
+webview UI.
 
-```text
-markdownReviewComments.addComment
-```
+## Possible future work
 
-Behavior:
-- capture selection
-- ask for comment
-- append formatted comment block
-- create section if missing
+Deliberately unbuilt, listed so that "why not X" has an answer:
 
----
-
-## FR-4 — Automatic Section Management
-
-If missing:
-
-```md
-# Unresolved Comments
-```
-
-extension creates it automatically.
-
-All comments appended below it.
-
----
-
-## FR-5 — Comment ID Generation
-
-Comment IDs must be deterministic and human-readable.
-
-Format:
-
-```text
-COMMENT-YYYY-MM-DD-XXX
-```
-
-Example:
-
-```text
-COMMENT-2026-05-24-001
-```
-
----
-
-## FR-6 — Line Reference
-
-Each comment stores:
-- line number
-- selected text
-- timestamp
-- comment body
-- status
-
----
-
-## FR-7 — AI-Friendly Format
-
-Output format must:
-- be readable as plain markdown
-- work well in LLM prompts
-- avoid JSON unless necessary
-- avoid hidden metadata dependency
-
----
-
-## FR-8 — Resolve Comment
-
-MVP+1 feature.
-
-User can:
-
-```text
-Mark Comment Resolved
-```
-
-Behavior:
-- updates status
-- optionally moves to `Resolved Comments`
-
----
-
-## FR-9 — Navigation
-
-Clicking comment ID should navigate to original line.
-
-Implementation options:
-- markdown links
-- vscode command URI
-- anchor markers
-
-MVP may skip bidirectional navigation.
-
----
-
-# Technical Requirements
-
-## Stack
-
-- TypeScript
-- VSCode Extension API
-- No backend
-- No external DB
-
----
-
-# Recommended Architecture
-
-## Components
-
-### 1. Code Action Provider
-
-Responsible for:
-- lightbulb actions
-- command availability
-
----
-
-### 2. Comment Service
-
-Responsible for:
-- ID generation
-- markdown formatting
-- parsing existing comments
-- insertion logic
-
----
-
-### 3. Markdown Parser
-
-Responsible for:
-- finding unresolved section
-- appending comments safely
-- avoiding duplicate sections
-
-Simple regex acceptable for MVP.
-
----
-
-### 4. Navigation Service
-
-Responsible for:
-- line lookup
-- comment lookup
-- jump actions
-
----
-
-# Suggested File Structure
-
-```text
-src/
-  extension.ts
-  providers/
-    ReviewCodeActionProvider.ts
-  services/
-    CommentService.ts
-    MarkdownService.ts
-    NavigationService.ts
-  models/
-    ReviewComment.ts
-```
-
----
-
-# Comment Schema
-
-## Markdown Representation
-
-```md
-## COMMENT-2026-05-24-001
-
-Line: 42
-Created: 2026-05-24T14:32:11Z
-Status: unresolved
-
-Selected Text:
-> Example selected text
-
-Comment:
-Review message here.
-```
-
----
-
-# MVP Scope
-
-## Included
-
-- add comment
-- unresolved comments section
-- line references
-- markdown-only
-- quick action support
-- AI-friendly output
-
-## Excluded
-
-- threading
-- collaboration
-- syncing
-- avatars
-- GitHub API
-- comments database
-- webview UI
-- floating inline widgets
-- notifications
-
----
-
-# Future Ideas
-
-## AI Integration
-
-Commands:
-
-```text
-Export Review Context
-```
-
-Produces:
-- all unresolved comments
-- grouped by section
-- optimized for LLM prompts
-
----
-
-## AI Review Mode
-
-Possible future:
-
-```text
-Ask AI To Resolve Comments
-```
-
-Workflow:
-- collect unresolved comments
-- send to Claude/Cursor/OpenAI
-- propose changes
-
----
-
-## Inline Decorations
-
-Future enhancement:
-- gutter icons
-- hover previews
-- unresolved badges
-
----
-
-# Performance Requirements
-
-Extension must:
-- activate fast
-- avoid full markdown AST parsing for MVP
-- work on large markdown files
-- avoid background indexing
-- consume minimal memory
-
-Target:
-
-```text
-<50ms action latency
-```
-
----
-
-# Design Principles
-
-## Principle 1
-
-Markdown is source of truth.
-
-## Principle 2
-
-Git is persistence layer.
-
-## Principle 3
-
-AI readability matters more than machine optimization.
-
-## Principle 4
-
-Low friction beats feature richness.
-
-## Principle 5
-
-No proprietary storage.
-
----
-
-# Suggested Extension Names
-
-- Markdown Review Comments
-- AI Review Notes
-- Markdown Inline Notes
-- Review Anchors
-- MD Review Comments
-- Local Review Notes
-- ReviewBlocks
-- Spec Review Notes
-
----
-
-# Suggested Startup Prompt
-
-Build a VSCode extension in TypeScript called "Markdown Review Comments".
-
-The extension should work only with markdown files.
-
-Main UX:
-- user selects line or range
-- user triggers Ctrl+. or lightbulb action
-- action called "Add Unresolved Comment"
-- input box asks for comment
-- extension appends structured markdown comment block into a bottom section called "# Unresolved Comments"
-- if section does not exist, create it
-- generated comments must include:
-  - unique ID
-  - line number
-  - selected text
-  - timestamp
-  - unresolved status
-  - comment body
-
-Requirements:
-- use VSCode CodeActionProvider
-- use TypeScript
-- no backend
-- no database
-- markdown should remain human-readable
-- optimize for AI readability
-- extension should be lightweight
-- support command palette
-- structure code cleanly into services/providers/models
-
-Generate:
-- package.json
-- extension.ts
-- providers
-- services
-- command registration
-- markdown insertion logic
-- README
-- example screenshots placeholders
-- clean architecture
-- runnable MVP
-
+- **Cross-file review** — collecting the unresolved notes of a whole folder into one view.
+  Wanted, but it needs a workspace index, which conflicts with the no-background-work rule
+  until there is evidence people need it.
+- **Ask an agent to resolve** — a command that hands the export to a configured agent. Held
+  back because it would introduce the first external dependency and the first network call.
+- **Gutter decorations** for anchored lines, if the inline threads turn out not to be enough
+  of a signal.

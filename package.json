@@ -1,12 +1,12 @@
 {
   "name": "markdown-review-comments",
   "displayName": "Markdown Review Comments",
-  "description": "GitHub-style inline review comments inside Markdown files. Local-first, git-native, and AI-friendly: no PR, no SaaS, no database.",
-  "version": "0.2.0",
+  "description": "GitHub-style inline review comments that live inside your Markdown files. Local-first, git-native and AI-friendly — no pull request, no SaaS, no database.",
+  "version": "0.3.0",
   "publisher": "ainova-systems",
   "license": "MIT",
   "author": {
-    "name": "Dmitrij Zykovic",
+    "name": "MB Ainova Systems",
     "url": "https://www.ainovasystems.com"
   },
   "repository": {
@@ -17,6 +17,7 @@
   "bugs": {
     "url": "https://github.com/ainova-systems/markdown-review-comments/issues"
   },
+  "qna": "https://github.com/ainova-systems/markdown-review-comments/issues",
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -26,20 +27,46 @@
   ],
   "keywords": [
     "markdown",
-    "review",
-    "comments",
+    "markdown comments",
+    "markdown review",
+    "review comments",
+    "review notes",
+    "inline comments",
     "code review",
     "pr review",
+    "annotate",
     "annotations",
-    "inline",
+    "comment",
     "ai",
-    "cursor",
+    "llm",
+    "agents",
     "claude",
+    "copilot",
+    "cursor",
     "adr",
     "spec",
     "documentation"
   ],
   "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#1F2430",
+    "theme": "dark"
+  },
+  "pricing": "Free",
+  "extensionKind": [
+    "ui",
+    "workspace"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true,
+      "description": "Markdown Review Comments only reads and writes the Markdown files you open. It runs no commands, makes no network calls, and has no runtime dependencies."
+    },
+    "virtualWorkspaces": {
+      "supported": true,
+      "description": "All edits go through the VS Code text-document API, so remote and virtual file systems are supported."
+    }
+  },
   "activationEvents": [
     "onLanguage:markdown"
   ],
@@ -184,13 +211,16 @@
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile",
-    "test": "node --test \"./out/test/**/*.test.js\"",
-    "package": "npx --yes @vscode/vsce package",
-    "install-extension": "npx --yes @vscode/vsce package -o markdown-review-comments.vsix && code --install-extension markdown-review-comments.vsix --force"
+    "test": "node --test out/test/*.test.js",
+    "verify": "npm run compile && npm test",
+    "media": "node scripts/render-media.mjs",
+    "package": "vsce package",
+    "install-extension": "vsce package -o markdown-review-comments.vsix && code --install-extension markdown-review-comments.vsix --force"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",
     "@types/vscode": "~1.85.0",
+    "@vscode/vsce": "^3.9.2",
     "typescript": "^5.4.0"
   }
 }

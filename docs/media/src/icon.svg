@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0" stop-color="#2B3348"/>
+      <stop offset="1" stop-color="#1A1F2B"/>
+    </linearGradient>
+    <linearGradient id="page" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#DCE3F2"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7FA8FF"/>
+      <stop offset="1" stop-color="#4B6FD6"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="128" height="128" rx="28" fill="url(#bg)"/>
+
+  <!-- the markdown page -->
+  <rect x="20" y="16" width="72" height="86" rx="8" fill="url(#page)"/>
+
+  <!-- ordinary lines -->
+  <g fill="#B4BFD4">
+    <rect x="31" y="30" width="42" height="6" rx="3"/>
+    <rect x="31" y="44" width="50" height="6" rx="3"/>
+    <rect x="31" y="82" width="34" height="6" rx="3"/>
+  </g>
+
+  <!-- the commented line: blue anchor bar + tinted row -->
+  <rect x="20" y="56" width="72" height="16" fill="#DCE6FF"/>
+  <rect x="20" y="56" width="5" height="16" fill="url(#accent)"/>
+  <g fill="#5F79B8">
+    <rect x="33" y="61" width="48" height="6" rx="3"/>
+  </g>
+
+  <!-- review bubble, anchored to that line, breaking the page edge -->
+  <path d="M74 60h30a12 12 0 0 1 12 12v20a12 12 0 0 1-12 12h-8l-12 12v-12h-10a12 12 0 0 1-12-12V72a12 12 0 0 1 12-12z" fill="#1A1F2B"/>
+  <path d="M76 62h28a10 10 0 0 1 10 10v20a10 10 0 0 1-10 10h-7l-10 10v-10h-11a10 10 0 0 1-10-10V72a10 10 0 0 1 10-10z" fill="url(#accent)"/>
+  <g fill="#FFFFFF">
+    <rect x="88" y="74" width="6" height="26" rx="3"/>
+    <rect x="78" y="84" width="26" height="6" rx="3"/>
+  </g>
+</svg>
