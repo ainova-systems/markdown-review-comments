@@ -22,3 +22,13 @@ CLAUDE.md
 CODE_OF_CONDUCT.md
 CONTRIBUTING.md
 SECURITY.md
+# Intelligence development context and generated output. AGENTS.md and
+# CLAUDE.md are already excluded above.
+.intelligence
+.intelligence/**
+intelligence
+intelligence/**
+intelligence.yaml
+intelligence.lock
+.claude
+.claude/**

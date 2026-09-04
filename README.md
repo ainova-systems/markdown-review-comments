@@ -197,7 +197,7 @@ agreement and [CONTRIBUTING.md](CONTRIBUTING.md) before opening a PR.
 
 - Bugs and ideas: [open an issue](https://github.com/ainova-systems/markdown-review-comments/issues).
 - Vulnerabilities: see [SECURITY.md](SECURITY.md) — please report privately.
-- Releases: [CHANGELOG.md](CHANGELOG.md); the process is in [docs/RELEASING.md](docs/RELEASING.md).
+- Releases: [CHANGELOG.md](CHANGELOG.md); the process is in [docs/releasing.md](docs/releasing.md).
 - Licence: MIT — see [LICENSE](LICENSE).
 
 ## Built AI-first
