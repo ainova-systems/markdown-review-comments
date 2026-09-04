@@ -33,8 +33,25 @@ export class NavigationService implements vscode.CodeLensProvider {
 
     const text = document.getText();
     const lenses: vscode.CodeLens[] = [];
+    const comments = md.parseComments(text);
 
-    for (const comment of md.parseComments(text)) {
+    // "Go to comment" above each inline anchor — but only where the block it
+    // points at still exists, so a leftover anchor cannot offer a dead jump.
+    const known = new Set(comments.map((c) => c.id));
+    for (const marker of md.findMarkers(text)) {
+      if (!known.has(marker.id)) {
+        continue;
+      }
+      lenses.push(
+        new vscode.CodeLens(new vscode.Range(marker.line, 0, marker.line, 0), {
+          title: '$(comment) Go to comment',
+          command: 'markdownReviewComments.navigateToComment',
+          arguments: [marker.id],
+        })
+      );
+    }
+
+    for (const comment of comments) {
       const range = new vscode.Range(comment.headingLine ?? 0, 0, comment.headingLine ?? 0, 0);
       lenses.push(
         new vscode.CodeLens(range, {

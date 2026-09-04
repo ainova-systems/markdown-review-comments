@@ -54,6 +54,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # `vsce ls` does not run vscode:prepublish, so the build has to exist first.
+      - name: Compile
+        run: npm run compile
+
       # vsce ignores .gitignore once a .vscodeignore exists, so this is the only
       # thing standing between a new directory and every user's machine.
       - name: Check VSIX contents

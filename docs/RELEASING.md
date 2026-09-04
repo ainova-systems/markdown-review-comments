@@ -86,8 +86,22 @@ Release still complete unattended; only the registry upload waits.
 
 ## First publish
 
-A brand-new extension cannot be created by `vsce publish` — the publisher must exist and the
-extension must be uploaded once through the
-[manage portal](https://marketplace.visualstudio.com/manage/publishers/ainova-systems).
-Take the VSIX from the GitHub Release the pipeline produced, upload it there, and let the
-malware scan finish (it reports `verified`). Every subsequent release is fully automatic.
+What has to exist beforehand is the **publisher**, not the extension: `ainova-systems`
+already publishes [Sandbox Console](https://marketplace.visualstudio.com/items?itemName=ainova-systems.sandbox-console),
+so `vsce publish` creates the `markdown-review-comments` entry on its first run. With
+`VSCE_PAT` configured, the first release needs no portal step at all.
+
+Without the secret, take the VSIX from the GitHub Release the pipeline produced and upload it
+once through the
+[manage portal](https://marketplace.visualstudio.com/manage/publishers/ainova-systems)
+(**+ New extension** → drag the file). Either way the Marketplace runs a malware scan that
+takes a few minutes and ends at `verified`; the listing is live only after it does.
+
+Check afterwards that the version really went public:
+
+```bash
+curl -s -X POST https://marketplace.visualstudio.com/_apis/public/gallery/extensionquery \
+  -H 'Accept: application/json;api-version=3.0-preview.1' \
+  -H 'Content-Type: application/json' \
+  -d '{"filters":[{"criteria":[{"filterType":7,"value":"ainova-systems.markdown-review-comments"}]}],"flags":914}'
+```

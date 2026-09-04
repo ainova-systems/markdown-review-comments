@@ -15,6 +15,9 @@ First public release on the Visual Studio Marketplace.
 
 - Published as `ainova-systems.markdown-review-comments`. Install from the Marketplace, or
   with `code --install-extension ainova-systems.markdown-review-comments`.
+- **A `Go to comment` CodeLens on anchored lines.** Jumping from a note to its source
+  already worked; the way back was a registered command with no way to reach it. The lens
+  appears only where the note it points at still exists.
 - **Works in restricted and remote workspaces.** The extension only reads and writes the
   Markdown files you open — it runs no commands and makes no network calls — so it is now
   declared as supported in untrusted workspaces and on virtual file systems.

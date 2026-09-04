@@ -10,6 +10,7 @@
  * is added on purpose, add it to EXPECTED below in the same change.
  */
 import { spawnSync } from 'node:child_process';
+import { existsSync } from 'node:fs';
 
 const EXPECTED = [
   'CHANGELOG.md',
@@ -25,6 +26,14 @@ const EXPECTED = [
   'out/services/NavigationService.js',
   'package.json',
 ];
+
+// `vsce ls` does NOT run `vscode:prepublish` (only `package` and `publish` do),
+// so an unbuilt tree lists no `out/` files and every one of them reads as
+// "missing" — a confusing way to learn you forgot to compile.
+if (!existsSync('out/extension.js')) {
+  console.error('No build output found. Run `npm run compile` before checking the package.');
+  process.exit(1);
+}
 
 const result = spawnSync('npx vsce ls', { encoding: 'utf8', shell: true });
 if (result.status !== 0) {
