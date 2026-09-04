@@ -8,10 +8,10 @@ description: "Markdown engine invariants: vscode-free core, format compatibility
 
 ## The engine stays free of `vscode`
 
-`services/MarkdownService.ts` imports nothing from `vscode`. It is the testable core — id
+`src/services/MarkdownService.ts` imports nothing from `vscode`. It is the testable core — id
 generation, parsing, formatting, and section and anchor handling all live there, covered by
-`test/markdownService.test.ts`. Anything touching the editor, configuration or the Comments
-API belongs in `CommentService`, `NavigationService` or `providers/`. New engine behaviour
+`src/test/markdownService.test.ts`. Anything touching the editor, configuration or the Comments
+API belongs in `CommentService`, `NavigationService` or `src/providers/`. New engine behaviour
 ships with a unit test in the same change.
 
 ## The on-disk format is a compatibility surface
