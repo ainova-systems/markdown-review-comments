@@ -13,7 +13,8 @@ interface TrackedThread {
 }
 
 /**
- * ReviewCommentController — the GitHub-style editing surface (FR-2 UX).
+ * ReviewCommentController — the GitHub-style editing surface (FR-2 UX,
+ * FR-10 inline threads).
  *
  * Uses VSCode's native Comments API so that:
  *  - hovering the gutter of a Markdown file shows a `+` that opens an inline

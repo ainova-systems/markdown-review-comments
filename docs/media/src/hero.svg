@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760">
+  <rect width="1280" height="760" fill="#1B202C"/>
+  <text x="48" y="60" font-family="&quot;Segoe UI&quot;, &quot;DejaVu Sans&quot;, Helvetica, Arial, sans-serif" font-size="30" font-weight="600" fill="#F0F4FF">A review note is a diff in your Markdown file.</text>
+  <text x="48" y="96" font-family="&quot;Segoe UI&quot;, &quot;DejaVu Sans&quot;, Helvetica, Arial, sans-serif" font-size="19" fill="#7B87A6">No sidecar file, no database, no pull request - the note is committed with the text it reviews.</text>
+  <rect x="48" y="132" width="1184" height="576" rx="12" fill="#232838" stroke="#333A4E"/>
+  <text x="92" y="173.76" font-family="Consolas, &quot;DejaVu Sans Mono&quot;, Menlo, monospace" font-size="16" fill="#7B87A6" xml:space="preserve">## Option B</text>
+  <rect x="49" y="210" width="1182" height="28" fill="#22352B"/>
+  <rect x="49" y="210" width="4" height="28" fill="#3E7A55"/>
+  <text x="68" y="229.76" font-family="Consolas, &quot;DejaVu Sans Mono&quot;, Menlo, monospace" font-size="16" fill="#6FD08C">+</text>
+  <text x="92" y="229.76" font-family="Consolas, &quot;DejaVu Sans Mono&quot;, Menlo, monospace" font-size="16" fill="#7FA8FF" xml:space="preserve">&lt;!-- review-note: 2026-09-04-001 --&gt;</text>
+  <text x="92" y="257.76" font-family="Consolas, &quot;DejaVu Sans Mono&quot;, Menlo, monospace" font-size="16" fill="#7B87A6" xml:space="preserve">Decouple the Agent Skills directory entirely from adapters.</text>
+  <rect x="49" y="294" width="1182" height="28" fill="#22352B"/>
+  <rect x="49" y="294" width="4" height="28" fill="#3E7A55"/>
+  <text x="68" y="313.76" font-family="Consolas, &quot;DejaVu Sans Mono&quot;, Menlo, monospace" font-size="16" fill="#6FD08C">+</text>
+  <text x="92" y="313.76" font-family="Consolas, &quot;DejaVu Sans Mono&quot;, Menlo, monospace" font-size="16" fill="#C6CFE6" xml:space="preserve">---</text>
+  <rect x="49" y="322" width="1182" height="28" fill="#22352B"/>
+  <rect x="49" y="322" width="4" height="28" fill="#3E7A55"/>
+  <text x="68" y="341.76" font-family="Consolas, &quot;DejaVu Sans Mono&quot;, Menlo, monospace" font-size="16" fill="#6FD08C">+</text>
+  <rect x="49" y="350" width="1182" height="28" fill="#22352B"/>
+  <rect x="49" y="350" width="4" height="28" fill="#3E7A55"/>
+  <text x="68" y="369.76" font-family="Consolas, &quot;DejaVu Sans Mono&quot;, Menlo, monospace" font-size="16" fill="#6FD08C">+</text>
+  <text x="92" y="369.76" font-family="Consolas, &quot;DejaVu Sans Mono&quot;, Menlo, monospace" font-size="16" fill="#C6CFE6" xml:space="preserve"># Unresolved Comments</text>
+  <rect x="49" y="378" width="1182" height="28" fill="#22352B"/>
+  <rect x="49" y="378" width="4" height="28" fill="#3E7A55"/>
+  <text x="68" y="397.76" font-family="Consolas, &quot;DejaVu Sans Mono&quot;, Menlo, monospace" font-size="16" fill="#6FD08C">+</text>
+  <rect x="49" y="406" width="1182" height="28" fill="#22352B"/>
+  <rect x="49" y="406" width="4" height="28" fill="#3E7A55"/>
+  <text x="68" y="425.76" font-family="Consolas, &quot;DejaVu Sans Mono&quot;, Menlo, monospace" font-size="16" fill="#6FD08C">+</text>
+  <text x="92" y="425.76" font-family="Consolas, &quot;DejaVu Sans Mono&quot;, Menlo, monospace" font-size="16" fill="#C6CFE6" xml:space="preserve">## COMMENT-2026-09-04-001</text>
+  <rect x="49" y="434" width="1182" height="28" fill="#22352B"/>
+  <rect x="49" y="434" width="4" height="28" fill="#3E7A55"/>
+  <text x="68" y="453.76" font-family="Consolas, &quot;DejaVu Sans Mono&quot;, Menlo, monospace" font-size="16" fill="#6FD08C">+</text>
+  <rect x="49" y="462" width="1182" height="28" fill="#22352B"/>
+  <rect x="49" y="462" width="4" height="28" fill="#3E7A55"/>
+  <text x="68" y="481.76" font-family="Consolas, &quot;DejaVu Sans Mono&quot;, Menlo, monospace" font-size="16" fill="#6FD08C">+</text>
+  <text x="92" y="481.76" font-family="Consolas, &quot;DejaVu Sans Mono&quot;, Menlo, monospace" font-size="16" fill="#C6CFE6" xml:space="preserve">Created: 2026-09-04T14:32:11Z</text>
+  <rect x="49" y="490" width="1182" height="28" fill="#22352B"/>
+  <rect x="49" y="490" width="4" height="28" fill="#3E7A55"/>
+  <text x="68" y="509.76" font-family="Consolas, &quot;DejaVu Sans Mono&quot;, Menlo, monospace" font-size="16" fill="#6FD08C">+</text>
+  <text x="92" y="509.76" font-family="Consolas, &quot;DejaVu Sans Mono&quot;, Menlo, monospace" font-size="16" fill="#C6CFE6" xml:space="preserve">Status: unresolved</text>
+  <rect x="49" y="518" width="1182" height="28" fill="#22352B"/>
+  <rect x="49" y="518" width="4" height="28" fill="#3E7A55"/>
+  <text x="68" y="537.76" font-family="Consolas, &quot;DejaVu Sans Mono&quot;, Menlo, monospace" font-size="16" fill="#6FD08C">+</text>
+  <rect x="49" y="546" width="1182" height="28" fill="#22352B"/>
+  <rect x="49" y="546" width="4" height="28" fill="#3E7A55"/>
+  <text x="68" y="565.76" font-family="Consolas, &quot;DejaVu Sans Mono&quot;, Menlo, monospace" font-size="16" fill="#6FD08C">+</text>
+  <text x="92" y="565.76" font-family="Consolas, &quot;DejaVu Sans Mono&quot;, Menlo, monospace" font-size="16" fill="#C6CFE6" xml:space="preserve">Selected Text:</text>
+  <rect x="49" y="574" width="1182" height="28" fill="#22352B"/>
+  <rect x="49" y="574" width="4" height="28" fill="#3E7A55"/>
+  <text x="68" y="593.76" font-family="Consolas, &quot;DejaVu Sans Mono&quot;, Menlo, monospace" font-size="16" fill="#6FD08C">+</text>
+  <text x="92" y="593.76" font-family="Consolas, &quot;DejaVu Sans Mono&quot;, Menlo, monospace" font-size="16" fill="#C6CFE6" xml:space="preserve">&gt; Decouple the Agent Skills directory entirely from adapters.</text>
+  <rect x="49" y="602" width="1182" height="28" fill="#22352B"/>
+  <rect x="49" y="602" width="4" height="28" fill="#3E7A55"/>
+  <text x="68" y="621.76" font-family="Consolas, &quot;DejaVu Sans Mono&quot;, Menlo, monospace" font-size="16" fill="#6FD08C">+</text>
+  <rect x="49" y="630" width="1182" height="28" fill="#22352B"/>
+  <rect x="49" y="630" width="4" height="28" fill="#3E7A55"/>
+  <text x="68" y="649.76" font-family="Consolas, &quot;DejaVu Sans Mono&quot;, Menlo, monospace" font-size="16" fill="#6FD08C">+</text>
+  <text x="92" y="649.76" font-family="Consolas, &quot;DejaVu Sans Mono&quot;, Menlo, monospace" font-size="16" fill="#C6CFE6" xml:space="preserve">Comment:</text>
+  <rect x="49" y="658" width="1182" height="28" fill="#22352B"/>
+  <rect x="49" y="658" width="4" height="28" fill="#3E7A55"/>
+  <text x="68" y="677.76" font-family="Consolas, &quot;DejaVu Sans Mono&quot;, Menlo, monospace" font-size="16" fill="#6FD08C">+</text>
+  <text x="92" y="677.76" font-family="Consolas, &quot;DejaVu Sans Mono&quot;, Menlo, monospace" font-size="16" fill="#C6CFE6" xml:space="preserve">Who owns the sync here - sync.sh, or the target adapters?</text>
+</svg>

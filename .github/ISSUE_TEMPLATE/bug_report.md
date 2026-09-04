@@ -33,15 +33,15 @@ Some text on the line being commented.
 ## Actual
 
 <!-- What actually happened. Paste the resulting markdown if the file was modified
-     incorrectly, and any error from the Output panel (View → Output → "Markdown
-     Review Notes") or Developer Tools console (Help → Toggle Developer Tools). -->
+     incorrectly, and any error from the Developer Tools console
+     (Help → Toggle Developer Tools → Console). -->
 
 ## Environment
 
-- VS Code version: <!-- Help → About, e.g. 1.92.0 -->
+- VS Code version / editor: <!-- Help → About, e.g. VS Code 1.92.0, or Cursor 0.42 -->
 - OS: <!-- e.g. macOS 15.0, Ubuntu 24.04, Windows 11 -->
-- Extension version: <!-- e.g. 0.2.0 -->
-- Installed from: <!-- VSIX / built from source -->
+- Extension version: <!-- e.g. 0.3.0 -->
+- Installed from: <!-- Marketplace / VSIX / built from source -->
 
 ## Relevant settings
 

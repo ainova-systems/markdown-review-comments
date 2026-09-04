@@ -1,50 +1,80 @@
 # AGENTS.md
 
-Guidance for AI coding agents (and humans) working in this repo.
+Guidance for AI coding agents (and humans) working in this repository.
 
 ## What this is
 
-**Markdown Review Comments** (`markdown-review-comments`) is a VS Code extension that adds
-GitHub-style inline review comments to Markdown files. Local-first and git-native: the
-markdown file is the single source of truth — each note is a `## COMMENT-...` block in a
-`# Unresolved Comments` section, linked to its line by an inline `<!-- review-note: ID -->`
-anchor that moves with the text. No PR, no SaaS, no database, and zero runtime dependencies
-(devDeps only: typescript, @types/node, @types/vscode). `docs/PRD.md` is the FR-N behaviour spec.
+**Markdown Review Comments** (`ainova-systems.markdown-review-comments`) is a VS Code
+extension that adds GitHub-style inline review comments to Markdown files. Local-first and
+git-native: the Markdown file is the single source of truth. Each note is a `## COMMENT-…`
+block in a `# Unresolved Comments` section, linked to its line by an inline
+`<!-- review-note: ID -->` anchor that moves with the text. No pull request, no SaaS, no
+database, no network calls, and no runtime dependencies (devDeps only: typescript,
+@types/node, @types/vscode, @vscode/vsce).
 
-## Build & test
+`docs/PRD.md` is the behaviour spec. `docs/RELEASING.md` owns the release process.
+
+## Build and test
 
 - `npm install` — install dev dependencies.
-- `npm run compile` — typecheck and emit to `out/` (`tsc -p ./`). This is the correctness gate.
+- `npm run compile` — typecheck and emit to `out/` (`tsc -p ./`).
 - `npm run watch` — recompile on change.
 - `npm test` — run the unit suite (`node --test` over `out/test/**/*.test.js`); `pretest`
   compiles first.
+- **`npm run verify` — the gate: compile + test.** CI runs exactly this, on Node 20 and 22.
+- `npm run media` — regenerate the icon and the README diagrams (see below).
 - Run/debug: open the folder in VS Code and press **F5** (Extension Development Host).
 
 ## Architecture (`src/`)
 
-- `extension.ts` — activation entry point; constructs the services + providers and registers
-  every `markdownReviewComments.*` command.
+- `extension.ts` — activation entry point; constructs the services and providers and
+  registers every `markdownReviewComments.*` command.
 - `providers/`
-  - `ReviewCodeActionProvider.ts` — lightbulb / Ctrl+. quick-fixes (add, resolve, go to source).
-  - `ReviewCommentController.ts` — the native Comments-API editing surface (gutter `+`, inline
-    input threads, resolve), debounced against document changes.
+  - `ReviewCodeActionProvider.ts` — lightbulb / `Ctrl+.` quick-fixes (add, resolve, go to
+    source).
+  - `ReviewCommentController.ts` — the native Comments-API surface (gutter `+`, inline input
+    threads, resolve), debounced against document changes.
 - `services/`
-  - `MarkdownService.ts` — **pure** string engine: find/create the section, generate ids, format
-    and parse comment blocks, insert anchors, append/remove blocks. No `vscode` import.
-  - `CommentService.ts` — orchestrates persistence on top of `MarkdownService`, applying changes
-    to a `vscode.TextDocument` via `WorkspaceEdit`.
+  - `MarkdownService.ts` — **pure** string engine: find/create the section, generate ids,
+    format and parse comment blocks, insert anchors, append/remove blocks. No `vscode`
+    import.
+  - `CommentService.ts` — orchestrates persistence on top of `MarkdownService`, applying
+    changes to a `vscode.TextDocument` via `WorkspaceEdit`.
   - `NavigationService.ts` — `CodeLensProvider` exposing "Go to source" / "Resolve" / "Go to
     comment" lenses and their commands.
-- `models/ReviewComment.ts` — the `ReviewComment` domain type (in-memory projection of a block).
+- `models/ReviewComment.ts` — the `ReviewComment` domain type.
 - `test/` — `node:test` unit tests for the pure engine.
 
-## Key invariant
+## Key invariants
 
-`services/MarkdownService.ts` MUST stay free of any `vscode` dependency. It is the testable core
-of the extension — all parsing, id generation, and markdown formatting lives here and is covered
-by `test/markdownService.test.ts`. Anything that touches the editor, configuration, or the
-Comments API belongs in `CommentService` / `NavigationService` / the providers, never in
-`MarkdownService`. New engine logic ships with a unit test.
+1. **`services/MarkdownService.ts` stays free of any `vscode` dependency.** It is the
+   testable core — all parsing, id generation, and Markdown formatting lives there and is
+   covered by `test/markdownService.test.ts`. Anything touching the editor, configuration,
+   or the Comments API belongs in `CommentService` / `NavigationService` / the providers.
+   New engine logic ships with a unit test.
+
+2. **The on-disk Markdown format is a compatibility surface.** Files written by an older
+   version must keep parsing — that is why a `Line:` field is still read but never written.
+   Changing the anchor shape or the comment schema means updating the engine, its tests, and
+   the README's format section together.
+
+3. **The VSIX contains exactly the files listed in `scripts/check-package-contents.mjs`.**
+   `vsce` ignores `.gitignore` when a `.vscodeignore` exists, so a new directory ships to
+   users unless `.vscodeignore` excludes it. Adding a file to the package is a deliberate
+   edit of both.
+
+## Assets
+
+The Marketplace icon and the README diagrams are generated by `scripts/render-media.mjs`
+(`npm run media`) and committed. The icon SVG under `docs/media/src/` is hand-authored; the
+diagrams are produced from definitions inside the script, so a diagram change is a script
+change. Never hand-edit the generated PNGs or the generated SVGs.
+
+## Releasing
+
+A tag push does everything — see `docs/RELEASING.md`. The pipeline refuses to publish unless
+the tag, `package.json` and `CHANGELOG.md` agree on the version, so the release commit
+always bumps both files together.
 
 ## Commit convention
 

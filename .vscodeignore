@@ -1,19 +1,24 @@
+# Everything that is not the extension itself. `vsce` ignores .gitignore once
+# this file exists, so anything new that must not ship belongs here — and
+# `scripts/check-package-contents.mjs` fails the build if something slips past.
+.github/**
 .vscode/**
 .vscode-test/**
+docs/**
+examples/**
+images/README.md
+scripts/**
 src/**
 out/test/**
 out/**/*.map
+**/*.ts
 **/tsconfig.json
 **/.gitignore
-**/*.ts
+**/.gitattributes
 node_modules/**
-examples/**
-scripts/**
-docs/**
-images/README.md
-.github/**
+*.vsix
+AGENTS.md
+CLAUDE.md
+CODE_OF_CONDUCT.md
 CONTRIBUTING.md
 SECURITY.md
-CLAUDE.md
-AGENTS.md
-.gitattributes
