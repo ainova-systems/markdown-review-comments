@@ -6,7 +6,8 @@ opening a PR.
 
 ## Prerequisites
 
-- Node.js 20 or newer
+- Node.js 20 or newer (on Windows, 22 or newer: the test script relies on the runner's own
+  glob expansion, which `cmd.exe` does not provide and Node 20 does not implement)
 - VS Code 1.85 or newer
 
 ## Build and check

@@ -19,6 +19,11 @@ First public release on the Visual Studio Marketplace.
   Markdown files you open — it runs no commands and makes no network calls — so it is now
   declared as supported in untrusted workspaces and on virtual file systems.
 
+### Fixed
+
+- The unit-test script no longer depends on a Node 22 feature, so the suite runs on the
+  Node 20 floor the extension targets.
+
 ### Changed
 
 - Documentation rewritten around what the extension actually does: what the anchor is for,
