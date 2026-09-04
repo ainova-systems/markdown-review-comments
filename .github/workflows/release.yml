@@ -73,9 +73,11 @@ jobs:
             echo "::error::Tag is $VERSION but package.json says $manifest."
             exit 1
           fi
-          node scripts/changelog-section.mjs "$VERSION" > release-notes.md
+          # Written outside the working tree: vsce packages whatever is in the
+          # repository root, so a stray file here ships to every user.
+          node scripts/changelog-section.mjs "$VERSION" > "$RUNNER_TEMP/release-notes.md"
           echo "Release notes for $VERSION:"
-          cat release-notes.md
+          cat "$RUNNER_TEMP/release-notes.md"
 
       - name: Verify (compile + tests)
         run: npm run verify
@@ -107,7 +109,7 @@ jobs:
             gh release create "$TAG" "$asset" \
               --verify-tag \
               --title "Markdown Review Comments $VERSION" \
-              --notes-file release-notes.md
+              --notes-file "$RUNNER_TEMP/release-notes.md"
           fi
 
       # `secrets` is not available to an `if:` expression, so presence is
