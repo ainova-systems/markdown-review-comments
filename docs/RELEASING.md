@@ -77,6 +77,22 @@ Rotate a leaked token by revoking it at the provider first, then replacing the s
 Azure DevOps PAT expires after at most a year; the publish step failing with a 401 usually
 means it lapsed, not that the release is broken.
 
+**The `VSCE_PAT` is shared with the other `ainova-systems` extensions.** It authenticates the
+publisher, not an extension, so the same token publishes
+[Sandbox Console](https://github.com/ainova-systems/code-sandbox-console) too, and it is
+stored as a repository secret in each of them. Renewing it therefore means updating **every**
+repository that holds a copy — a token replaced in one and forgotten in another fails the
+next release there, after its tag has already been pushed:
+
+```bash
+for repo in markdown-review-comments code-sandbox-console; do
+  gh secret set VSCE_PAT --repo "ainova-systems/$repo"
+done
+```
+
+The same warning applies in reverse to revocation: revoking the token stops releases
+everywhere, not just here.
+
 ### Adding a manual approval gate
 
 If you later want a human to confirm each Marketplace upload, create a GitHub Environment
