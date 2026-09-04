@@ -11,6 +11,15 @@ updates:
     groups:
       dev-dependencies:
         patterns: ['*']
+    # Both type packages state the compatibility floor rather than track the
+    # newest release: @types/vscode has to equal engines.vscode, and @types/node
+    # has to stay on the major that VS Code 1.85 ships. Raising either lets the
+    # compiler accept APIs that are absent on the oldest editor we support, and
+    # nothing in CI would catch it. They move when the floor moves.
+    ignore:
+      - dependency-name: '@types/vscode'
+      - dependency-name: '@types/node'
+        update-types: ['version-update:semver-major']
     commit-message:
       prefix: ''
 
