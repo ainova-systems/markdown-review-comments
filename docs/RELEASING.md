@@ -60,38 +60,23 @@ Before anything is published:
 
 ## Publishing credentials
 
-Both registry steps are skipped when their secret is absent, so the pipeline is useful
-before either is configured: it still produces a verified, attested GitHub Release, and the
-job summary tells you to upload the VSIX by hand.
+Both registry steps are skipped when their secret is absent, so the pipeline is useful before
+either is configured: it still produces a verified, attested GitHub Release, and the job
+summary tells you to upload the VSIX by hand.
 
-| Secret | Registry | How to create it |
-| --- | --- | --- |
-| `VSCE_PAT` | Visual Studio Marketplace | An Azure DevOps personal access token for the `ainova-systems` publisher, scoped to **Marketplace → Manage**, with **All accessible organizations** selected. |
-| `OVSX_PAT` | [Open VSX](https://open-vsx.org) | An access token from your Open VSX user settings; the namespace `ainova-systems` must exist and list you as a member. |
+`VSCE_PAT` (Visual Studio Marketplace) and `OVSX_PAT` (Open VSX) are provisioned by the
+maintainers out of band; how they are minted and where else they are held is deliberately not
+recorded in this repository. Both are held as repository secrets under **Settings → Secrets
+and variables → Actions**.
 
-Add them under **Settings → Secrets and variables → Actions**. To publish a tag that was
-released before the secret existed, run the **Release** workflow manually and give it that
-tag — the release is refreshed in place rather than duplicated.
+Each token authenticates a **publisher**, not this extension, so renewal and revocation are
+publisher-wide decisions: replacing a token here updates only this repository's copy, and
+revoking one stops every release that uses it.
 
-Rotate a leaked token by revoking it at the provider first, then replacing the secret. An
-Azure DevOps PAT expires after at most a year; the publish step failing with a 401 usually
-means it lapsed, not that the release is broken.
-
-**The `VSCE_PAT` is shared with the other `ainova-systems` extensions.** It authenticates the
-publisher, not an extension, so the same token publishes
-[Sandbox Console](https://github.com/ainova-systems/code-sandbox-console) too, and it is
-stored as a repository secret in each of them. Renewing it therefore means updating **every**
-repository that holds a copy — a token replaced in one and forgotten in another fails the
-next release there, after its tag has already been pushed:
-
-```bash
-for repo in markdown-review-comments code-sandbox-console; do
-  gh secret set VSCE_PAT --repo "ainova-systems/$repo"
-done
-```
-
-The same warning applies in reverse to revocation: revoking the token stops releases
-everywhere, not just here.
+To publish a tag that was released before its secret existed, run the **Release** workflow
+manually and give it that tag — the release is refreshed in place rather than duplicated. A
+publish step failing with `401` means the credential lapsed or was revoked, not that the
+release is broken.
 
 ### Adding a manual approval gate
 
@@ -100,20 +85,10 @@ If you later want a human to confirm each Marketplace upload, create a GitHub En
 their own job, and give that job `environment: marketplace`. The build and the GitHub
 Release still complete unattended; only the registry upload waits.
 
-## First publish
+## After a publish
 
-What has to exist beforehand is the **publisher**, not the extension: `ainova-systems`
-already publishes [Sandbox Console](https://marketplace.visualstudio.com/items?itemName=ainova-systems.sandbox-console),
-so `vsce publish` creates the `markdown-review-comments` entry on its first run. With
-`VSCE_PAT` configured, the first release needs no portal step at all.
-
-Without the secret, take the VSIX from the GitHub Release the pipeline produced and upload it
-once through the
-[manage portal](https://marketplace.visualstudio.com/manage/publishers/ainova-systems)
-(**+ New extension** → drag the file). Either way the Marketplace runs a malware scan that
-takes a few minutes and ends at `verified`; the listing is live only after it does.
-
-Check afterwards that the version really went public:
+The Marketplace runs a malware scan on every upload; it takes a few minutes and ends at
+`verified`. The listing is live only after it does. Confirm the version really went public:
 
 ```bash
 curl -s -X POST https://marketplace.visualstudio.com/_apis/public/gallery/extensionquery \
