@@ -22,3 +22,22 @@ CLAUDE.md
 CODE_OF_CONDUCT.md
 CONTRIBUTING.md
 SECURITY.md
+# Intelligence development context and generated output
+.intelligence
+.intelligence/**
+intelligence.yaml
+intelligence.lock
+intelligence
+intelligence/**
+AGENTS.md/**
+.claude
+.claude/**
+.claude/rules
+.claude/rules/**
+.claude/agents
+.claude/agents/**
+.claude/skills
+.claude/skills/**
+CLAUDE.md/**
+.claude/commands
+.claude/commands/**

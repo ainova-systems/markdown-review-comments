@@ -3,3 +3,10 @@ out/
 *.vsix
 .vscode-test/
 *.log
+# Intelligence generated state and tool output
+.intelligence/
+CLAUDE.md
+.claude/*
+!.claude/
+!.claude/settings.json
+intelligence/_backup/

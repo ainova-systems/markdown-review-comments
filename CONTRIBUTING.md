@@ -74,7 +74,7 @@ rasteriser.
 
 ## Releasing
 
-Maintainers only, and documented separately in [docs/RELEASING.md](docs/RELEASING.md).
+Maintainers only, and documented separately in [docs/releasing.md](docs/releasing.md).
 
 ## Code of conduct
 
