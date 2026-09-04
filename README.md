@@ -30,7 +30,10 @@ Search **Markdown Review Comments** in the VS Code Marketplace, or:
 
 Then open any Markdown file, hover the gutter next to a line and click the **+**.
 
-Works in VS Code 1.85+ and any editor built on it — Cursor, Windsurf, VSCodium.
+Requires VS Code 1.85 or newer. Editors built on it — Cursor, Windsurf, VSCodium — install it
+from [Open VSX](https://open-vsx.org/extension/ainova-systems/markdown-review-comments), or
+from the `.vsix` attached to any
+[release](https://github.com/ainova-systems/markdown-review-comments/releases).
 
 ## How it works
 
@@ -99,15 +102,17 @@ the review without handing over the whole file.
 
 ## Commands
 
-Command Palette, category **Markdown Review Comments**:
+From the Command Palette, category **Markdown Review Comments**:
 
 | Command | What it does |
 | --- | --- |
 | `Add Unresolved Comment` | Open the inline input at the selection (`Ctrl+Alt+M`). |
 | `Mark Comment Resolved` | Remove a comment block and its anchor — at the cursor, or picked from a list. |
 | `Export Review Context` | Open a new document with every unresolved note, formatted for an LLM prompt. |
-| `Go to Source Line` | Jump from a comment block to the line it anchors to. |
-| `Go to Comment` | Jump from an anchored line to its comment block. |
+
+Navigation is offered where it is useful rather than in the palette — as a CodeLens above
+each comment block (`Go to source`, `Resolve`) and above each anchored line
+(`Go to comment`), and from the lightbulb inside a comment block.
 
 ## Settings
 

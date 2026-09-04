@@ -50,11 +50,11 @@ jobs:
             echo "version=${TAG#v}"
           } >> "$GITHUB_OUTPUT"
 
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           ref: ${{ steps.tag.outputs.tag }}
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v7
         with:
           node-version: 20
           cache: npm
@@ -89,7 +89,7 @@ jobs:
         run: npx vsce package --out "markdown-review-comments-$VERSION.vsix"
 
       - name: Attest build provenance
-        uses: actions/attest-build-provenance@v3
+        uses: actions/attest-build-provenance@v4
         with:
           subject-path: markdown-review-comments-*.vsix
 
@@ -142,7 +142,7 @@ jobs:
         env:
           OVSX_PAT: ${{ secrets.OVSX_PAT }}
           VERSION: ${{ steps.tag.outputs.version }}
-        run: npx ovsx publish "markdown-review-comments-$VERSION.vsix"
+        run: npx --yes ovsx publish "markdown-review-comments-$VERSION.vsix"
 
       - name: Summary
         if: always()
